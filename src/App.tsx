@@ -1123,7 +1123,7 @@ function App() {
             [
               PanelTop,
               "選單列",
-              "關閉視窗後，點擊 macOS 選單列的 DevDock 圖示，即可查看服務。使用 ⌘Q 完整結束 App。",
+              "關閉視窗會隱藏 Dock 圖示，選單列服務持續運作。從選單列開啟視窗可恢復圖示，選擇「結束 DevDock」完整退出。",
             ],
             [
               Clock3,

@@ -86,7 +86,13 @@ function schedule() {
   timer = setInterval(() => void refresh(), preferences.refreshSeconds * 1000);
 }
 async function showWindow() {
+  if (quitting) return;
+  if (process.platform === "darwin" && !app.dock?.isVisible()) {
+    await app.dock?.show();
+  }
+  if (quitting) return;
   if (window) {
+    if (window.isMinimized()) window.restore();
     window.show();
     window.focus();
     return;
@@ -113,6 +119,7 @@ async function showWindow() {
     if (!quitting) {
       event.preventDefault();
       window?.hide();
+      if (process.platform === "darwin") app.dock?.hide();
     }
   });
   window.on("closed", () => {
