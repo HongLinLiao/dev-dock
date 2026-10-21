@@ -1,0 +1,69 @@
+{
+  "name": "devdock",
+  "productName": "DevDock",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A calmer home for your local development services.",
+  "author": {
+    "name": "HongLinLiao",
+    "email": "honglin0822@outlook.com"
+  },
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "npm run build:electron && concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5173 electron .\"",
+    "dev:web": "vite --host 127.0.0.1",
+    "build:electron": "tsc -p tsconfig.electron.json",
+    "build": "tsc -p tsconfig.json && npm run build:electron && vite build",
+    "test": "npm run build:electron && node --test tests/*.test.cjs",
+    "start": "electron .",
+    "dist": "npm run build && electron-builder --mac",
+    "dist:dir": "npm run build && electron-builder --mac --dir",
+    "format": "prettier --write src electron tests vite.config.ts *.json index.html README.md"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.0",
+    "cross-env": "^7.0.3",
+    "electron": "^45.0.0",
+    "electron-builder": "^26.15.3",
+    "prettier": "^3.9.10",
+    "typescript": "~5.7.2",
+    "vite": "^6.0.7",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.honglinliao.devdock",
+    "productName": "DevDock",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "public/trayTemplate*.png",
+      "public/icon.png",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "public/icon.png"
+    },
+    "dmg": {
+      "title": "DevDock"
+    }
+  }
+}
